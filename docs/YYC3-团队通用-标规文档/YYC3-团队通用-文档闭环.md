@@ -1,31 +1,35 @@
 ---
-file: YYC3-团队规范-文档闭环.md
-description: YYC³ 团队规范、代码标准、项目规范、质量保障、闭环范式
-author: YanYuCloudCube Team <admin@0379.email>
-version: v2.0.0
-created: 2026-05-01
-updated: 2026-05-01
+file: YYC3-团队通用-文档闭环.md
+title: YYC³ 文档闭环标准 — 模版 · 追溯 · 迭代
+description: YYC³ 文档闭环建设标准 — 模版体系、追溯机制、迭代演进与工具支撑全量规范
+author: YYC³ Team <admin@0379.email>
+version: v2.1.0
+created: 2026-11-01
+updated: 2026-11-01
 status: stable
-tags: [规范],[标准],[文档格式],[代码标准],[命名规范],[质量保障]
+tags: [standard, document, traceability, template]
 category: policy
 language: zh-CN
 audience: developers,managers,stakeholders
 complexity: intermediate
 ---
-# YYC³（YanYuCloudCube）项目文档闭环建标准
 
-> ***YanYuCloudCube***
-> *言启象限 | 语枢未来*
-> ***Words Initiate Quadrants, Language Serves as Core for Future***
-> *万象归元于云枢 | 深栈智启新纪元*
-> ***All things converge in cloud pivot; Deep stacks ignite a new era of intelligence***
+# YYC³ 文档闭环标准 — 模版 · 追溯 · 迭代
+
+> **_YYC³_**（YanYuCloudCube™ · 注册商标）
+> _言启象限 | 语枢未来_
+> **_Words Initiate Quadrants, Language Serves as Core for Future_**
+> _万象归元于云枢 | 深栈智启新纪元_
+> **_All things converge in cloud pivot; Deep stacks ignite a new era of intelligence_**
 
 ---
 
-**文档版本**：v3.0.0
-**发布日期**：2026-03-27
-**文档性质**：YYC³项目文档闭环建标准官方规范
-**适用范围**：YYC³全系列项目文档体系建设
+## 核心理念
+
+**五高架构**：高可用 | 高性能 | 高安全 | 高扩展 | 高智能
+**五标体系**：标准化 | 规范化 | 自动化 | 可视化 | 智能化
+**五化转型**：流程化 | 数字化 | 生态化 | 工具化 | 服务化
+**五维评估**：时间维 | 空间维 | 属性维 | 事件维 | 关联维
 
 ---
 
@@ -70,7 +74,7 @@ YYC³项目文档闭环建标准是团队文档体系建设的核心指导规范
 ### 核心价值主张
 
 | 维度   | 价值主张                     | 实现方式                  |
-| ------ | ---------------------------- | ------------------------- |
+| ---- | ---- | ---- |
 | 可复用 | 模版化设计，一次创建多次使用 | 模版配置库 + 变量替换机制 |
 | 可迭代 | 版本演进，持续优化           | 自动版本号 + 变更日志     |
 | 可追溯 | 全链路追踪，历史可查         | 文档注册表 + 校验和机制   |
@@ -127,34 +131,37 @@ YYC³项目文档闭环建标准是团队文档体系建设的核心指导规范
 
 ```
 docs/
-├── 00-YYC3-[项目英文缩写]-项目总览索引/
-│   ├── 001-[项目英文缩写]-项目总览索引-项目总览手册.md
-│   ├── 002-[项目英文缩写]-项目总览索引-文档架构导航.md
-│   ├── 003-[项目英文缩写]-项目总览索引-快速开始指南.md
-│   ├── 004-[项目英文缩写]-项目总览索引-核心概念词典.md
-│   ├── 005-[项目英文缩写]-项目总览索引-版本更新日志.md
-│   ├── [项目英文缩写]-RES-DOC-001.md
+├── 00-YYC3-项目总览-目录索引/
+│   ├── 001-YYC3-项目总览-项目总览手册.md
+│   ├── 002-YYC3-项目总览-文档架构导航.md
+│   ├── 003-YYC3-项目总览-快速开始指南.md
+│   ├── 004-YYC3-项目总览-核心概念词典.md
+│   ├── 005-YYC3-项目总览-版本更新日志.md
+│   ├── RES-DOC-001.md
 │   └── README.md
 │
-├── 01-YYC3-[项目英文缩写]-启动规划阶段/
-│   ├── 0101-[项目英文缩写]-项目规划/
-│   ├── 0102-[项目英文缩写]-需求规划/
-│   ├── 0103-[项目英文缩写]-可行性分析/
-│   ├── 0104-[项目英文缩写]-风险管理/
+├── 01-YYC3-项目规划-启动阶段/
+│   ├── 0101-YYC3-项目规划-项目章程.md
+│   ├── 0102-YYC3-项目规划-需求分析.md
+│   ├── 0103-YYC3-项目规划-可行性分析.md
+│   ├── 0104-YYC3-项目规划-风险管理.md
 │   └── README.md
 │
-├── 02-YYC3-[项目英文缩写]-项目设计阶段/
-│   ├── 0201-[项目英文缩写]-架构设计/
-│   ├── 0202-[项目英文缩写]-详细设计/
+├── 02-YYC3-项目规划-设计阶段/
+│   ├── 0201-YYC3-项目规划-架构设计.md
+│   ├── 0202-YYC3-项目规划-详细设计.md
 │   └── README.md
 │
-├── 03-YYC3-[项目英文缩写]-开发实施阶段/
-├── 04-YYC3-[项目英文缩写]-测试审核阶段/
-├── 05-YYC3-[项目英文缩写]-交付部署阶段/
-├── 06-YYC3-[项目英文缩写]-运维保障阶段/
-├── 07-YYC3-[项目英文缩写]-合规安全保障/
-├── 08-YYC3-[项目英文缩写]-资产知识管理/
-├── 09-YYC3-[项目英文缩写]-智能演进优化/
+├── 03-YYC3-项目开发-实施阶段/
+├── 04-YYC3-项目测试-审核阶段/
+├── 05-YYC3-项目部署-文档闭环/
+├── 06-YYC3-项目运营-维护阶段/
+├── 07-YYC3-项目合规-安全保障/
+├── 08-YYC3-项目整合-实施阶段/
+├── 09-YYC3-项目资产-知识管理/
+├── 10-YYC3-项目模版-标准规范/
+├── 11-YYC3-智能演进-优化阶段/
+├── 12-YYC3-用户指南-操作手册/
 │
 └── README.md
 ```
@@ -162,8 +169,8 @@ docs/
 ### 文档命名规范
 
 | 规范项   | 格式                             | 示例                                           |
-| -------- | -------------------------------- | ---------------------------------------------- |
-| 主文档   | `{编号}-{阶段}-{模块}-{名称}.md` | `001-[项目英文缩写]-启动规划阶段-项目章程与愿景.md` |
+| ---- | ---- | ---- |
+| 主文档   | `{编号}-{阶段}-{模块}-{名称}.md` | `001-YYC3-项目规划-启动阶段-项目章程与愿景.md` |
 | README   | `README.md`                      | `README.md`                                    |
 | 预留文档 | `RES-DOC-001.md`                 | `RES-DOC-001.md`                               |
 | 模版文件 | `{类型}_template.md`             | `architecture_template.md`                     |
@@ -172,18 +179,21 @@ docs/
 
 ```yaml
 ---
-FAMILYfile: 文档文件名
-FAMILYdescription: 文档描述
-FAMILYauthor: 作者
-FAMILYversion: 版本号
-FAMILYcreated: 创建日期
-FAMILYupdated: 更新日期
-FAMILYstatus: 状态
-FAMILYtags: 标签列表
-FAMILYchecksum: 内容校验和
-FAMILYtrace_id: 追溯ID
-FAMILYparent_doc: 父文档
-FAMILYrelated_docs: 关联文档列表
+file: 文档文件名（须与磁盘文件名一致）
+title: 文档标题
+description: 文档描述（≤50 字）
+author: YYC³ Team <admin@0379.email>
+version: 语义化版本号 vX.Y.Z
+created: 创建日期 YYYY-MM-DD
+updated: 更新日期 YYYY-MM-DD
+status: 文档状态
+tags: [标签1, 标签2, 标签3]
+category: 文档分类
+language: zh-CN
+checksum: 内容校验和（前 16 位）
+trace_id: 追溯 ID
+parent_doc: 父文档
+related_docs: 关联文档列表
 ---
 ```
 
@@ -225,14 +235,14 @@ FAMILYrelated_docs: 关联文档列表
 | `{{file_name}}`       | 必填 | 文档文件名 | `001-xxx.md`          |
 | `{{doc_title}}`       | 必填 | 文档标题   | `项目章程与愿景`      |
 | `{{doc_description}}` | 必填 | 文档描述   | `项目立项核心依据`    |
-| `{{author}}`          | 可选 | 作者       | `YanYuCloudCube Team` |
+| `{{author}}`          | 可选 | 作者       | `YYC³ Team` |
 | `{{version}}`         | 可选 | 版本号     | `v3.0.0`              |
-| `{{created_date}}`    | 自动 | 创建日期   | `2026-03-27`          |
-| `{{updated_date}}`    | 自动 | 更新日期   | `2026-03-27`          |
+| `{{created_date}}`    | 自动 | 创建日期   | `2026-11-01`          |
+| `{{updated_date}}`    | 自动 | 更新日期   | `2026-11-01`          |
 | `{{status}}`          | 可选 | 状态       | `published`           |
-| `{{tags}}`            | 可选 | 标签       | `[文档],[模版]`       |
+| `{{tags}}`            | 可选 | 标签       | `[文档, 模版]`        |
 | `{{checksum}}`        | 自动 | 校验和     | `a1b2c3d4`            |
-| `{{trace_id}}`        | 自动 | 追溯ID     | `TRC-20260327001`     |
+| `{{trace_id}}`        | 自动 | 追溯ID     | `TRC-20261101001`     |
 | `{{content}}`         | 必填 | 文档内容   | `...`                 |
 
 ---
@@ -269,13 +279,13 @@ FAMILYrelated_docs: 关联文档列表
 
 ```json
 {
-  "trace_id": "TRC-20260327001",
-  "document": "001-[项目英文缩写]-启动规划阶段-项目章程与愿景.md",
+  "trace_id": "TRC-20261101001",
+  "document": "001-YYC3-项目规划-启动阶段-项目章程与愿景.md",
   "action": "create|update|review|publish",
-  "timestamp": "2026-03-27T10:30:00Z",
+  "timestamp": "2026-11-01T10:30:00Z",
   "version": "v3.0.0",
   "checksum": "a1b2c3d4e5f6g7h8",
-  "author": "YanYuCloudCube Team",
+  "author": "YYC³ Team",
   "changes": [
     {
       "field": "content",
@@ -284,9 +294,7 @@ FAMILYrelated_docs: 关联文档列表
       "reason": "内容优化"
     }
   ],
-  "related_docs": [
-    "002-[项目英文缩写]-启动规划阶段-项目范围说明书.md"
-  ]
+  "related_docs": ["002-YYC3-项目规划-启动阶段-项目范围说明书.md"]
 }
 ```
 
@@ -330,20 +338,24 @@ v2.0.0 → 架构重构
 ### 变更日志规范
 
 ```markdown
-## [v3.0.0] - 2026-03-27
+## [v3.0.0] - 2026-11-01
 
 ### 新增
+
 - 新增文档追溯机制
 - 新增校验和验证功能
 
 ### 变更
+
 - 优化文档模版结构
 - 更新核心理念映射
 
 ### 修复
+
 - 修复README索引生成错误
 
 ### 移除
+
 - 移除过时的文档模版
 ```
 
@@ -423,12 +435,12 @@ python YYC3-Document-Template-Engine.py --config my_config.yaml
 ```yaml
 # template_config.yaml 结构
 
-version: "3.0.0"
-global_variables:    # 全局变量
-validation_rules:    # 验证规则
-templates:           # 模版定义
-traceability:        # 追溯配置
-iteration:           # 迭代配置
+version: v2.0.0
+global_variables: # 全局变量
+validation_rules: # 验证规则
+templates: # 模版定义
+traceability: # 追溯配置
+iteration: # 迭代配置
 ```
 
 ---
@@ -438,7 +450,7 @@ iteration:           # 迭代配置
 ### A. 文档状态定义
 
 | 状态      | 说明                 |
-| --------- | -------------------- |
+| ---- | ---- |
 | draft     | 草稿状态，内容待完善 |
 | review    | 审核中，等待评审     |
 | published | 已发布，正式版本     |
@@ -458,23 +470,21 @@ iteration:           # 迭代配置
 [架构设计] [API文档] [数据库] [安全] [性能] [监控]
 ```
 
-### C. 版本历史
+---
 
-| 版本   | 日期       | 变更内容                                 |
-| ------ | ---------- | ---------------------------------------- |
-| v3.0.0 | 2026-04-27 | 重构文档闭环建标准，整合五高五标五化五维 |
-| v2.0.0 | 2026-03-18 | 新增README映射和预留文档功能             |
-| v1.0.0 | 2025-02-30 | 初始版本，建立基础文档架构               |
+## 变更历史
+
+| 版本 | 日期 | 变更内容 | 作者 |
+| ---- | ---- | -------- | ---- |
+| v2.1.0 | 2026-11-01 | 统一标头标尾 · 品牌标识统一为 YYC³ · 排版与语法规范化 · 时间基准统一为 2026-11-01 | YYC³ Team |
 
 ---
 
-<div align="center">
-
-> 「***YanYuCloudCube***」
-> 「***<admin@0379.email>***」
-> 「***Words Initiate Quadrants, Language Serves as Core for the Future***」
-> 「***All things converge in cloud pivot; Deep stacks ignite a new era of intelligence***」
-
-**© 2025-2026 YanYuCloudCube™. All Rights Reserved.**
-
-</div>
+<p align="center">
+  <b>YYC³</b>（YanYuCloudCube™ · 注册商标）<br>
+  言启象限 | 语枢未来<br>
+  <i>Words Initiate Quadrants, Language Serves as Core for Future</i><br>
+  万象归元于云枢 | 深栈智启新纪元<br>
+  <i>All things converge in cloud pivot; Deep stacks ignite a new era of intelligence</i><br>
+  <sub>© 2026 YanYuCloudCube™（YYC³）· <a href="mailto:admin@0379.email">admin@0379.email</a></sub>
+</p>

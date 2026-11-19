@@ -45,6 +45,8 @@
 
 #### 技术实现
 
+> ⚠️ **已失效（2026-11-19）**：以下 `useChat`/`streamText` 示例及 `/api/ai/*` 端点从未生效，Vercel AI SDK 已剥离，AI 能力当前为本地规则适配器（见根目录 `.env.example` 与[技术尽调报告](../YYC3-项目闭环-验收系统/reports/YYC3-技术尽调-对齐实施推进.md)）。以下内容仅作规划参考，不得作为现行接口实现引用。
+
 **前端组件**:
 \`\`\`typescript
 // components/ai-analytics-chat.tsx

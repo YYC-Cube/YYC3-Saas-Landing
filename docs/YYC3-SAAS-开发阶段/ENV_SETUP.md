@@ -36,6 +36,8 @@
 
 ### 2. AI 服务配置
 
+> ⚠️ **已失效（2026-11-19）**：本节描述的 `OPENAI_API_KEY`、`ANTHROPIC_API_KEY` 等 AI 服务变量已随 Vercel AI SDK 剥离而失效，不再是运行时配置。当前运行时实际读取的变量仅 `KV_REST_API_URL`、`KV_REST_API_TOKEN`（见根目录 `.env.example`）。恢复 AI 能力须经确认清单 Q3/Q5 决策。权威依据：[技术尽调与对齐实施推进报告](../YYC3-项目闭环-验收系统/reports/YYC3-技术尽调-对齐实施推进.md)。以下内容仅作历史参考，不得按此配置部署。
+
 YYC³ 的核心功能依赖 AI 服务。我们支持多个 AI 提供商，您可以根据需求选择配置。
 
 #### `OPENAI_API_KEY` ⭐ 推荐

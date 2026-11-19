@@ -1,26 +1,28 @@
 ---
-file: YYC3-团队规范-开发标准.md
-description: YYC³ 团队统一开发标准 — 涵盖文档规范、代码标准、项目规范、质量保障的全量规范体系
-author: YanYuCloudCube Team <admin@0379.email>
-version: v2.0.0
-created: 2026-05-01
-updated: 2026-05-01
+file: YYC3-团队通用-开发标准.md
+title: YYC³ 团队统一开发标准 — 文档 · 代码 · 命名 · 项目 · 质量
+description: YYC³ 团队统一开发标准 — 文档规范、代码标准、命名规范、项目规范与质量保障全量体系
+author: YYC³ Team <admin@0379.email>
+version: v2.1.0
+created: 2026-11-01
+updated: 2026-11-01
 status: stable
-tags: [规范],[标准],[文档格式],[代码标准],[命名规范],[质量保障]
+tags: [standard, document, code, naming, quality-gate]
 category: policy
 language: zh-CN
 audience: developers,managers,stakeholders
 complexity: intermediate
 ---
-> ***YanYuCloudCube***
-> *言启象限 | 语枢未来*
-> ***Words Initiate Quadrants, Language Serves as Core for Future***
-> *万象归元于云枢 | 深栈智启新纪元*
-> ***All things converge in cloud pivot; Deep stacks ignite a new era of intelligence***
+
+# YYC³ 团队统一开发标准 — 文档 · 代码 · 命名 · 项目 · 质量
+
+> **_YYC³_**（YanYuCloudCube™ · 注册商标）
+> _言启象限 | 语枢未来_
+> **_Words Initiate Quadrants, Language Serves as Core for Future_**
+> _万象归元于云枢 | 深栈智启新纪元_
+> **_All things converge in cloud pivot; Deep stacks ignite a new era of intelligence_**
 
 ---
-
-# YYC³ 团队统一开发标准
 
 ## 总则
 
@@ -52,7 +54,7 @@ complexity: intermediate
 ### 行业标准对照
 
 | 标准领域 | 参考标准                              |
-| -------- | ------------------------------------- |
+| ---- | ---- |
 | 软件文档 | ISO/IEC 18019、IEEE 1063、DITA        |
 | 元数据   | Dublin Core、Schema.org、JSON-LD      |
 | 版本管理 | SemVer 2.0.0                          |
@@ -71,25 +73,30 @@ complexity: intermediate
 ```markdown
 ---
 file: {FILE_NAME}
-description: {FILE_DESCRIPTION}
-author: {AUTHOR_NAME} <{AUTHOR_EMAIL}>
+title: {DOC_TITLE}
+description: {DOC_DESCRIPTION}
+author: YYC³ Team <admin@0379.email>
 version: {VERSION}
 created: {CREATE_DATE}
 updated: {UPDATE_DATE}
 status: {STATUS}
-tags: {TAGS}
+tags: {TAGS}            # 形如 [guide, onboarding, develop]，须为合法 YAML 序列
 category: {CATEGORY}
-language: {LANGUAGE}
+language: zh-CN
 ---
 
-> ***YanYuCloudCube***
-> *言启象限 | 语枢未来*
-> ***Words Initiate Quadrants, Language Serves as Core for Future***
-> *万象归元于云枢 | 深栈智启新纪元*
-> ***All things converge in cloud pivot; Deep stacks ignite a new era of intelligence***
+# {DOC_TITLE}
+
+> **_YYC³_**（YanYuCloudCube™ · 注册商标）
+> _言启象限 | 语枢未来_
+> **_Words Initiate Quadrants, Language Serves as Core for Future_**
+> _万象归元于云枢 | 深栈智启新纪元_
+> **_All things converge in cloud pivot; Deep stacks ignite a new era of intelligence_**
 
 ---
 ```
+
+> 字段顺序、品牌写法、标尾格式的完整定义见《YYC³ 团队通用-标头标尾.md》，本目录文档一律以该文件为准。
 
 ### 1.2 分类扩展字段
 
@@ -126,40 +133,41 @@ review_status: approved
 ### 1.3 必填字段定义
 
 | 字段        | 说明     | 格式要求                             | 示例                                         |
-| ----------- | -------- | ------------------------------------ | -------------------------------------------- |
-| file        | 文件名称 | 相对路径或文件名                     | `README.md`                                  |
+| ---- | ---- | ---- | ---- |
+| file        | 文件名称 | 相对路径或文件名，须与磁盘文件名一致 | `YYC3-团队通用-开发标准.md`                  |
+| title       | 文档标题 | 与正文 H1 标题一致                   | `YYC³ 团队统一开发标准`                      |
 | description | 文档描述 | 简洁描述文档内容和用途，不超过 50 字 | `项目总览文档，包含项目介绍、快速开始等内容` |
-| author      | 作者信息 | 姓名 <邮箱>                          | `张三 <zhangsan@0379.email>`                 |
+| author      | 作者信息 | 团队名 <邮箱>                        | `YYC³ Team <admin@0379.email>`               |
 | version     | 版本号   | 语义化版本号 SemVer                  | `v1.2.3`                                     |
-| created     | 创建日期 | YYYY-MM-DD                           | `2026-03-06`                                 |
-| updated     | 更新日期 | YYYY-MM-DD                           | `2026-03-06`                                 |
+| created     | 创建日期 | YYYY-MM-DD                           | `2026-11-01`                                 |
+| updated     | 更新日期 | YYYY-MM-DD                           | `2026-11-01`                                 |
 | status      | 文档状态 | 见 1.5 状态值定义                    | `stable`                                     |
-| tags        | 标签     | 逗号分隔的标签列表，2-4 个           | `project,overview,getting-started`           |
+| tags        | 标签     | YAML 流式序列，2-4 个，英文逗号分隔 | `[guide, onboarding, develop]`               |
 | category    | 文档分类 | 见 1.6 分类定义                      | `technical`                                  |
 | language    | 文档语言 | zh-CN / en-US / ja-JP                | `zh-CN`                                      |
 
 ### 1.4 可选字段定义
 
 | 字段           | 说明         | 格式要求                                               | 示例                                     |
-| -------------- | ------------ | ------------------------------------------------------ | ---------------------------------------- |
+| ---- | ---- | ---- | ---- |
 | audience       | 目标读者     | developers / managers / users / stakeholders           | `developers`                             |
 | complexity     | 复杂度       | basic / intermediate / advanced / expert               | `intermediate`                           |
 | base_url       | API 基础地址 | URL 地址                                               | `https://api.yyc3.com/v1`                |
 | authentication | 认证方式     | none / api-key / oauth2 / jwt                          | `oauth2`                                 |
-| project        | 项目名称     | 项目标识符                                             | `yyc3-platform`                          |
+| project        | 项目名称     | 项目标识符                                             | `yyc3-ai-dev`                            |
 | phase          | 项目阶段     | planning / design / development / testing / production | `development`                            |
 | design_type    | 设计类型     | architecture / ui / ux / database                      | `architecture`                           |
 | review_status  | 审核状态     | pending / reviewed / approved / rejected               | `approved`                               |
 | related_docs   | 相关文档     | 逗号分隔的文档列表                                     | `API.md,Architecture.md`                 |
 | license        | 许可证       | 标准许可证名称                                         | `MIT`                                    |
-| copyright      | 版权声明     | 版权信息                                               | `Copyright (c) 2026 YanYuCloudCube Team` |
+| copyright      | 版权声明     | 版权信息                                               | `Copyright (c) 2026 YYC³ Team` |
 
 ### 1.5 状态值定义
 
 **文档/文件状态 (status)**
 
 | 状态值             | 说明        | 使用场景                   |
-| ------------------ | ----------- | -------------------------- |
+| ---- | ---- | ---- |
 | draft              | 草稿        | 初始编写阶段，内容不完整   |
 | dev / active       | 开发中/活跃 | 内容编写中或正在使用的文件 |
 | review             | 审核中      | 内容完成，等待审核         |
@@ -170,7 +178,7 @@ review_status: approved
 **审核状态 (review_status)**
 
 | 状态值   | 说明   | 使用场景             |
-| -------- | ------ | -------------------- |
+| ---- | ---- | ---- |
 | pending  | 待审核 | 提交审核，等待处理   |
 | reviewed | 已审核 | 审核完成，待确认     |
 | approved | 已批准 | 审核通过，正式发布   |
@@ -179,7 +187,7 @@ review_status: approved
 **项目阶段 (phase)**
 
 | 阶段值      | 说明     | 使用场景           |
-| ----------- | -------- | ------------------ |
+| ---- | ---- | ---- |
 | planning    | 规划阶段 | 项目立项和需求分析 |
 | design      | 设计阶段 | 技术方案和架构设计 |
 | development | 开发阶段 | 功能开发和实现     |
@@ -189,7 +197,7 @@ review_status: approved
 ### 1.6 文档分类体系
 
 | 分类      | 说明     | 示例文档                               |
-| --------- | -------- | -------------------------------------- |
+| ---- | ---- | ---- |
 | general   | 通用文档 | README.md, CHANGELOG.md                |
 | technical | 技术文档 | Architecture.md, Database.md           |
 | api       | API 文档 | API.md, Endpoints.md                   |
@@ -203,7 +211,7 @@ review_status: approved
 标签按 **类型 → 功能 → 模块** 顺序排列，每份文档 2-4 个标签：
 
 | 分类     | 标签示例                                    | 说明           |
-| -------- | ------------------------------------------- | -------------- |
+| ---- | ---- | ---- |
 | 文档类型 | `guide`, `reference`, `tutorial`, `report`  | 按文档类型分类 |
 | 技术领域 | `frontend`, `backend`, `devops`, `database` | 按技术领域分类 |
 | 功能模块 | `auth`, `logging`, `cache`, `i18n`, `api`   | 按功能模块分类 |
@@ -215,7 +223,7 @@ review_status: approved
 遵循语义化版本号 (SemVer 2.0.0)：`MAJOR.MINOR.PATCH`
 
 | 变更类型                | 版本号变更 | 示例                |
-| ----------------------- | ---------- | ------------------- |
+| ---- | ---- | ---- |
 | 内容修正 / Bug 修复     | PATCH +1   | `v1.0.0` → `v1.0.1` |
 | 新增内容 / 向下兼容功能 | MINOR +1   | `v1.0.0` → `v1.1.0` |
 | 结构重组 / 不兼容变更   | MAJOR +1   | `v1.0.0` → `v2.0.0` |
@@ -233,11 +241,11 @@ review_status: approved
 ```markdown
 ## 变更历史
 
-| 版本   | 日期       | 变更内容          | 作者                |
-| ------ | ---------- | ----------------- | ------------------- |
-| v1.2.0 | 2026-03-06 | 新增 API 认证章节 | 张三                |
-| v1.1.0 | 2026-02-28 | 更新架构设计章节  | 李四                |
-| v1.0.0 | 2026-01-15 | 初始版本          | YanYuCloudCube Team |
+| 版本   | 日期       | 变更内容          | 作者      |
+| ---- | ---- | ---- | ---- |
+| v1.2.0 | 2026-11-01 | 新增 API 认证章节 | YYC³ Team |
+| v1.1.0 | 2026-11-01 | 更新架构设计章节  | YYC³ Team |
+| v1.0.0 | 2026-11-01 | 初始版本          | YYC³ Team |
 ```
 
 Git 提交信息应包含版本号和变更说明：
@@ -281,26 +289,28 @@ git commit -m "docs: v2.0.0 重组文档结构"
 
 | 字段         | 必填 | 说明                 | 示例                                      |
 | ------------ | ---- | -------------------- | ----------------------------------------- |
-| file         | ✅    | 文件名（包含扩展名） | `useI18n.ts`                              |
-| description  | ✅    | 一句话概括文件用途   | `国际化 Hook · 支持中文/English 动态切换` |
-| author       | ✅    | 作者名称             | `YanYuCloudCube Team`                     |
-| version      | ✅    | 语义化版本号         | `v1.0.0`                                  |
-| created      | ✅    | 创建日期 YYYY-MM-DD  | `2026-03-05`                              |
-| updated      | ✅    | 更新日期 YYYY-MM-DD  | `2026-03-05`                              |
-| status       | ✅    | 文件状态（同 1.5）   | `active`                                  |
-| tags         | ✅    | 标签列表 2-4 个      | `[hook],[i18n],[locale]`                  |
-| copyright    | ❌    | 版权信息             | `YanYuCloudCube Team`                     |
-| license      | ❌    | 许可证               | `MIT`                                     |
-| brief        | ❌    | 简要说明             | `提供国际化功能`                          |
-| details      | ❌    | 详细说明（多行）     | `支持中英文动态切换`                      |
-| dependencies | ❌    | 依赖列表             | `React, Context API`                      |
-| exports      | ❌    | 导出内容             | `useI18n, I18nProvider`                   |
-| notes        | ❌    | 注意事项             | `需要在 App 根组件包裹`                   |
+| file         | ✅   | 文件名（包含扩展名） | `useI18n.ts`                              |
+| description  | ✅   | 一句话概括文件用途   | `国际化 Hook · 支持中文/English 动态切换` |
+| author       | ✅   | 作者名称             | `YYC³ Team`                               |
+| version      | ✅   | 语义化版本号         | `v1.0.0`                                  |
+| created      | ✅   | 创建日期 YYYY-MM-DD  | `2026-11-01`                              |
+| updated      | ✅   | 更新日期 YYYY-MM-DD  | `2026-11-01`                              |
+| status       | ✅   | 文件状态（同 1.5）   | `active`                                  |
+| tags         | ✅   | 标签列表 2-4 个      | `[hook],[i18n],[locale]`                  |
+| copyright    | ❌   | 版权信息             | `YanYuCloudCube™（YYC³）`                 |
+| license      | ❌   | 许可证               | `MIT`                                     |
+| brief        | ❌   | 简要说明             | `提供国际化功能`                          |
+| details      | ❌   | 详细说明（多行）     | `支持中英文动态切换`                      |
+| dependencies | ❌   | 依赖列表             | `React, Context API`                      |
+| exports      | ❌   | 导出内容             | `useI18n, I18nProvider`                   |
+| notes        | ❌   | 注意事项             | `需要在 App 根组件包裹`                   |
+
+> **两种 tags 写法区分**：代码标头为注释文本，沿用方括号列举写法 `[hook],[i18n],[locale]`；文档 YAML front matter 必须写成合法序列 `[guide, onboarding, develop]`，二者不可混用。
 
 ### 2.3 代码标头标签体系
 
 | 类别     | 标签          | 说明            |
-| -------- | ------------- | --------------- |
+| ---- | ---- | ---- |
 | **类型** | `[component]` | 组件文件        |
 |          | `[hook]`      | Hook 文件       |
 |          | `[util]`      | 工具函数        |
@@ -329,14 +339,14 @@ git commit -m "docs: v2.0.0 重组文档结构"
 /**
  * file: useI18n.ts
  * description: 国际化 Hook · 支持中文/English 动态切换
- * author: YanYuCloudCube Team
+ * author: YYC³ Team
  * version: v1.0.0
- * created: 2026-02-26
- * updated: 2026-03-05
+ * created: 2026-11-01
+ * updated: 2026-11-01
  * status: active
  * tags: [hook],[i18n],[locale]
  *
- * copyright: YanYuCloudCube Team
+ * copyright: YYC³ Team
  * license: MIT
  *
  * brief: 提供国际化功能，支持中英文动态切换
@@ -352,7 +362,13 @@ git commit -m "docs: v2.0.0 重组文档结构"
  * notes: 需要在 App 根组件包裹 I18nProvider
  */
 
-import { useState, useCallback, useMemo, createContext, useContext } from "react";
+import {
+  useState,
+  useCallback,
+  useMemo,
+  createContext,
+  useContext,
+} from "react";
 ```
 
 ### 2.5 CSS/SCSS 文件标头
@@ -361,10 +377,10 @@ import { useState, useCallback, useMemo, createContext, useContext } from "react
 /**
  * file: index.css
  * description: 全局样式文件 · 包含基础样式、主题变量和重置样式
- * author: YanYuCloudCube Team
+ * author: YYC³ Team
  * version: v1.0.0
- * created: 2026-02-26
- * updated: 2026-03-05
+ * created: 2026-11-01
+ * updated: 2026-11-01
  * status: active
  * tags: [style],[theme],[global]
  *
@@ -387,10 +403,10 @@ import { useState, useCallback, useMemo, createContext, useContext } from "react
 /**
  * file: vite.config.ts
  * description: Vite 配置文件 · 包含构建、插件、别名等配置
- * author: YanYuCloudCube Team
+ * author: YYC³ Team
  * version: v1.0.0
- * created: 2026-02-26
- * updated: 2026-03-05
+ * created: 2026-11-01
+ * updated: 2026-11-01
  * status: active
  * tags: [config],[build],[vite]
  *
@@ -414,10 +430,10 @@ import { useState, useCallback, useMemo, createContext, useContext } from "react
 /**
  * file: useI18n.test.ts
  * description: useI18n Hook 单元测试
- * author: YanYuCloudCube Team
+ * author: YYC³ Team
  * version: v1.0.0
- * created: 2026-03-05
- * updated: 2026-03-05
+ * created: 2026-11-01
+ * updated: 2026-11-01
  * status: active
  * tags: [test],[unit],[hook]
  *
@@ -441,10 +457,10 @@ import { useState, useCallback, useMemo, createContext, useContext } from "react
 /**
  * file: main.js
  * description: Electron 主进程入口文件 · 创建窗口、托盘和 IPC 通信
- * author: YanYuCloudCube Team
+ * author: YYC³ Team
  * version: v1.0.0
- * created: 2026-02-26
- * updated: 2026-03-05
+ * created: 2026-11-01
+ * updated: 2026-11-01
  * status: active
  * tags: [electron],[main-process],[ipc]
  *
@@ -468,16 +484,16 @@ import { useState, useCallback, useMemo, createContext, useContext } from "react
 
 ### 3.1 项目命名
 
-| 对象     | 规范                               | 示例                              |
-| -------- | ---------------------------------- | --------------------------------- |
-| 项目名称 | `yyc3-` 前缀 + kebab-case          | `yyc3-platform`, `yyc3-cp-im`     |
-| 端口分配 | 默认 3200-3500，禁止占用 3000-3199 | `3218` (开发), `3113` (WebSocket) |
-| 包名     | `@yyc3/` 作用域 + kebab-case       | `@yyc3/ui-components`             |
+| 对象     | 规范                                | 示例                                |
+| ---- | ---- | ---- |
+| 项目名称 | `yyc3-` 前缀 + kebab-case           | `yyc3-ai-dev`                       |
+| 端口分配 | 开发服务器端口自 3030 起，占用 3000-3029 需报备 | `3030`（开发服务器）, `3031`（WebSocket） |
+| 包名     | `@yyc3/` 作用域 + kebab-case        | `@yyc3/shell`                        |
 
 ### 3.2 文件命名
 
 | 对象      | 规范                   | 示例                                          |
-| --------- | ---------------------- | --------------------------------------------- |
+| ---- | ---- | ---- |
 | 组件文件  | PascalCase.tsx         | `DataMonitoring.tsx`, `AISuggestionPanel.tsx` |
 | Hook 文件 | camelCase.ts           | `useI18n.ts`, `useWebSocketData.ts`           |
 | 工具函数  | camelCase.ts           | `formatDate.ts`, `parseConfig.ts`             |
@@ -485,12 +501,12 @@ import { useState, useCallback, useMemo, createContext, useContext } from "react
 | 样式文件  | kebab-case.css         | `global-styles.css`, `theme-variables.css`    |
 | 配置文件  | kebab-case             | `vite.config.ts`, `tailwind.config.js`        |
 | 测试文件  | 源文件名 + .test.ts    | `useI18n.test.ts`, `Button.test.tsx`          |
-| 文档文件  | YYC3- + 中文描述 + .md | `YYC3-团队规范-开发标准.md`                   |
+| 文档文件  | YYC3- + 中文描述 + .md | `YYC3-团队通用-开发标准.md`                   |
 
 ### 3.3 组件命名模式
 
 | 模式                  | 示例                                      | 说明           |
-| --------------------- | ----------------------------------------- | -------------- |
+| ---- | ---- | ---- |
 | **PascalCase 功能名** | `DataMonitoring`                          | 页面/面板组件  |
 | **XxxPanel**          | `AISuggestionPanel`, `ServiceLoopPanel`   | 侧面板组件     |
 | **XxxPage**           | `DesignSystemPage`, `DevGuidePage`        | 完整页面       |
@@ -506,7 +522,7 @@ import { useState, useCallback, useMemo, createContext, useContext } from "react
 ### 3.4 Hook 命名模式
 
 | 模式           | 示例                              | 用途         |
-| -------------- | --------------------------------- | ------------ |
+| ---- | ---- | ---- |
 | `useXxxData`   | `useWebSocketData`                | 数据获取     |
 | `useXxxConfig` | `useNetworkConfig`                | 配置管理     |
 | `useXxxStore`  | `useSettingsStore`                | Zustand 状态 |
@@ -515,7 +531,7 @@ import { useState, useCallback, useMemo, createContext, useContext } from "react
 ### 3.5 类型命名模式
 
 | 模式        | 示例                             | 说明                            |
-| ----------- | -------------------------------- | ------------------------------- |
+| ---- | ---- | ---- |
 | `XxxType`   | `NodeStatusType`, `DatabaseType` | 联合类型（有限值集合）          |
 | `XxxState`  | `WebSocketDataState`             | 复合状态快照                    |
 | `XxxResult` | `ConnectionTestResult`           | 操作返回值                      |
@@ -594,7 +610,7 @@ yyc3-{project-name}/
 **核心框架**
 
 | 技术             | 用途       | 版本要求 |
-| ---------------- | ---------- | -------- |
+| ---- | ---- | ---- |
 | React            | UI 框架    | 19+      |
 | TypeScript       | 类型安全   | 5+       |
 | Vite             | 构建工具   | 7+       |
@@ -603,7 +619,7 @@ yyc3-{project-name}/
 **状态管理**
 
 | 技术             | 用途             |
-| ---------------- | ---------------- |
+| ---- | ---- |
 | Zustand          | 全局状态管理     |
 | React Context    | 局部全局状态     |
 | localStorage     | CRUD 数据持久化  |
@@ -613,7 +629,7 @@ yyc3-{project-name}/
 **UI 与样式**
 
 | 技术              | 用途           |
-| ----------------- | -------------- |
+| ---- | ---- |
 | Material UI (MUI) | 主 UI 组件库   |
 | Radix UI          | 无障碍原子组件 |
 | Tailwind CSS      | 工具类样式     |
@@ -624,7 +640,7 @@ yyc3-{project-name}/
 **开发工具链**
 
 | 工具     | 用途       |
-| -------- | ---------- |
+| ---- | ---- |
 | ESLint   | 代码检查   |
 | Prettier | 代码格式化 |
 | Vitest   | 单元测试   |
@@ -643,7 +659,7 @@ yyc3-{project-name}/
 **API 配置**
 
 | 端点组    | 基地址                     | 预设操作                                              |
-| --------- | -------------------------- | ----------------------------------------------------- |
+| ---- | ---- | ---- |
 | 文件系统  | `/api/fs`                  | list, read, write, delete, rename, upload, search     |
 | 数据库    | `/api/db`                  | detect, connect, query, tables, backup, restore, test |
 | WebSocket | `ws://localhost:{port}/ws` | 实时数据推送                                          |
@@ -652,7 +668,7 @@ yyc3-{project-name}/
 **跨组件通信机制**
 
 | 机制             | 实现方式                                   | 应用场景         |
-| ---------------- | ------------------------------------------ | ---------------- |
+| ---- | ---- | ---- |
 | React Context    | AuthContext, I18nContext, WebSocketContext | 全局状态         |
 | Zustand Store    | useSettingsStore 等                        | 持久化可编辑状态 |
 | Props Drilling   | 标准父子组件传参                           | 局部 UI 状态     |
@@ -667,22 +683,36 @@ yyc3-{project-name}/
 ### 5.1 标头规范检查脚本
 
 ```javascript
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
-const REQUIRED_FIELDS = ['file', 'description', 'author', 'version', 'created', 'updated', 'status', 'tags'];
+const REQUIRED_FIELDS = [
+  "file",
+  "description",
+  "author",
+  "version",
+  "created",
+  "updated",
+  "status",
+  "tags",
+];
 
 function checkFile(filePath) {
-  const content = fs.readFileSync(filePath, 'utf-8');
-  const lines = content.split('\n');
+  const content = fs.readFileSync(filePath, "utf-8");
+  const lines = content.split("\n");
 
-  if (!lines[0].includes('/**') && !lines[0].includes('---')) {
-    return { valid: false, error: 'Missing header' };
+  if (!lines[0].includes("/**") && !lines[0].includes("---")) {
+    return { valid: false, error: "Missing header" };
   }
 
-  const missingFields = REQUIRED_FIELDS.filter(field => !content.includes(field));
+  const missingFields = REQUIRED_FIELDS.filter(
+    (field) => !content.includes(field),
+  );
   if (missingFields.length > 0) {
-    return { valid: false, error: `Missing fields: ${missingFields.join(', ')}` };
+    return {
+      valid: false,
+      error: `Missing fields: ${missingFields.join(", ")}`,
+    };
   }
 
   return { valid: true };
@@ -694,7 +724,7 @@ function checkDirectory(dir) {
   let invalidCount = 0;
   const invalidFiles = [];
 
-  files.forEach(file => {
+  files.forEach((file) => {
     const filePath = path.join(dir, file);
     const stat = fs.statSync(filePath);
 
@@ -717,14 +747,14 @@ function checkDirectory(dir) {
 
   console.log(`Valid: ${validCount}, Invalid: ${invalidCount}`);
   if (invalidFiles.length > 0) {
-    console.log('Invalid files:');
+    console.log("Invalid files:");
     invalidFiles.forEach(({ file, error }) => {
       console.log(`  - ${file}: ${error}`);
     });
   }
 }
 
-checkDirectory('./src');
+checkDirectory("./src");
 ```
 
 ### 5.2 ESLint 规则集成
@@ -732,17 +762,18 @@ checkDirectory('./src');
 ```javascript
 module.exports = {
   rules: {
-    'header/header': [
-      'error',
-      'block',
+    "header/header": [
+      "error",
+      "block",
       [
-        '*',
+        "*",
         {
-          pattern: ' file: .+\\n description: .+\\n author: .+\\n version: .+\\n created: .+\\n updated: .+\\n status: .+\\n tags: .+',
+          pattern:
+            " file: .+\\n description: .+\\n author: .+\\n version: .+\\n created: .+\\n updated: .+\\n status: .+\\n tags: .+",
           template: `/**
  * file: FILENAME
  * description: DESCRIPTION
- * author: YanYuCloudCube Team
+ * author: YYC³ Team
  * version: v1.0.0
  * created: YYYY-MM-DD
  * updated: YYYY-MM-DD
@@ -846,7 +877,7 @@ exit 0
 ### A. 术语表
 
 | 术语       | 定义                                                 |
-| ---------- | ---------------------------------------------------- |
+| ---- | ---- |
 | 标头       | 文件开头的注释块或 YAML Front Matter，包含文件元信息 |
 | 必填字段   | 必须填写的标头字段                                   |
 | 可选字段   | 可选填写的标头字段                                   |
@@ -859,7 +890,7 @@ exit 0
 ### B. 参考资源
 
 | 资源                       | 链接                                               |
-| -------------------------- | -------------------------------------------------- |
+| ---- | ---- |
 | Markdown 语法规范          | https://commonmark.org/                            |
 | 语义化版本号规范           | https://semver.org/                                |
 | Dublin Core 元数据标准     | https://www.dublincore.org/                        |
@@ -870,7 +901,7 @@ exit 0
 ### C. 工具推荐
 
 | 类别       | 工具                          |
-| ---------- | ----------------------------- |
+| ---- | ---- |
 | 编辑器     | VS Code, Typora               |
 | 语法检查   | markdownlint, ESLint          |
 | 代码格式化 | Prettier                      |
@@ -883,17 +914,17 @@ exit 0
 
 ## 变更历史
 
-| 版本   | 日期       | 变更内容                                                          | 作者                |
-| ------ | ---------- | ----------------------------------------------------------------- | ------------------- |
-| v1.0.0 | 2026-03-21 | 初始版本 — 合并文档格式、命名规范、代码标准三份文档为统一开发标准 | YanYuCloudCube Team |
+| 版本 | 日期 | 变更内容 | 作者 |
+| ---- | ---- | -------- | ---- |
+| v2.1.0 | 2026-11-01 | 统一标头标尾 · 品牌标识统一为 YYC³ · 排版与语法规范化 · 时间基准统一为 2026-11-01 | YYC³ Team |
 
 ---
 
-<div align="center">
-
-> 「***YanYuCloudCube***」
-> 「***<admin@0379.email>***」
-> 「***Words Initiate Quadrants, Language Serves as Core for Future***」
-> 「***All things converge in cloud pivot; Deep stacks ignite a new era of intelligence***」
-
-</div>
+<p align="center">
+  <b>YYC³</b>（YanYuCloudCube™ · 注册商标）<br>
+  言启象限 | 语枢未来<br>
+  <i>Words Initiate Quadrants, Language Serves as Core for Future</i><br>
+  万象归元于云枢 | 深栈智启新纪元<br>
+  <i>All things converge in cloud pivot; Deep stacks ignite a new era of intelligence</i><br>
+  <sub>© 2026 YanYuCloudCube™（YYC³）· <a href="mailto:admin@0379.email">admin@0379.email</a></sub>
+</p>

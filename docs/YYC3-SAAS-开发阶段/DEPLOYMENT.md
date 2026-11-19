@@ -323,6 +323,8 @@ Vercel 自动提供 SSL 证书，无需手动配置。
 
 ### Vercel Analytics
 
+> ⚠️ **已失效（2026-11-19）**：`@vercel/analytics` 依赖已从 `package.json` 移除，以下代码仅为历史记录，不得在新部署中启用。当前监控以 GitHub Actions 与部署平台指标为准。
+
 \`\`\`typescript
 // app/layout.tsx
 import { Analytics } from '@vercel/analytics/react';
