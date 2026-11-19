@@ -10,9 +10,7 @@
  * @license MIT
  */
 
-// AI 工作流优化分析器
-import { generateObject } from "ai"
-import { openai } from "@ai-sdk/openai"
+// 工作流优化分析器（Vercel AI SDK 已剥离；改为基于执行统计的本地规则分析）
 import { z } from "zod"
 import { workflowEngine, type WorkflowExecution } from "@/lib/workflow-engine"
 
@@ -66,38 +64,53 @@ export async function analyzeWorkflow(workflowId: string): Promise<WorkflowAnaly
   // 计算统计数据
   const stats = calculateWorkflowStats(history)
 
-  // 使用 AI 分析瓶颈和优化机会
-  const { object } = await generateObject({
-    model: openai("gpt-4"),
-    schema: WorkflowAnalysisSchema,
-    prompt: `
-      你是一个工作流优化专家。请分析以下工作流的执行历史，识别瓶颈并提供优化建议。
+  // Vercel AI SDK 已剥离：改为基于执行统计的本地规则分析，保留 Zod 类型约束。
+  const bottlenecks: WorkflowAnalysis["bottlenecks"] = [
+    {
+      step: stats.slowestStep.name,
+      issue: `平均执行耗时 ${stats.slowestStep.avgDuration.toFixed(2)} 秒，为全链路最慢步骤`,
+      impact: "拉长整体工作流执行时长",
+      severity: stats.slowestStep.avgDuration > 5 ? "high" : "medium",
+    },
+  ]
 
-      工作流 ID: ${workflowId}
-      
-      执行统计:
-      - 总执行次数: ${stats.totalExecutions}
-      - 成功率: ${stats.successRate.toFixed(2)}%
-      - 平均执行时间: ${stats.avgDuration.toFixed(2)}秒
-      - 最慢步骤: ${stats.slowestStep.name} (平均 ${stats.slowestStep.avgDuration.toFixed(2)}秒)
-      - 失败最多的步骤: ${stats.mostFailedStep.name} (失败率 ${stats.mostFailedStep.failureRate.toFixed(2)}%)
-      
-      最近 10 次执行详情:
-      ${JSON.stringify(history.slice(0, 10), null, 2)}
-      
-      请提供：
-      1. 整体分析总结
-      2. 识别的瓶颈（包括步骤、问题、影响和严重程度）
-      3. 具体优化建议（包括建议、预期改进、实施方法和优先级）
-      4. 自动化机会（包括任务、方法、节省时间和复杂度）
-      5. 性能评分（0-100）
-      6. 3-5 条关键建议
-      
-      请基于数据提供实用、可操作的建议。
-    `,
-  })
+  if (stats.mostFailedStep.failureRate > 0) {
+    bottlenecks.push({
+      step: stats.mostFailedStep.name,
+      issue: `步骤失败率 ${stats.mostFailedStep.failureRate.toFixed(2)}%`,
+      impact: "导致工作流中断与重试成本",
+      severity: stats.mostFailedStep.failureRate > 20 ? "high" : "medium",
+    })
+  }
 
-  return object
+  const optimizations: WorkflowAnalysis["optimizations"] = [
+    {
+      suggestion: `优先优化步骤「${stats.slowestStep.name}」`,
+      expectedImprovement: "降低平均执行时长",
+      implementation: "拆分长耗时步骤或引入异步处理",
+      priority: "medium",
+    },
+  ]
+
+  const automationOpportunities: WorkflowAnalysis["automationOpportunities"] = []
+
+  const performanceScore = Math.max(
+    0,
+    Math.min(100, Math.round(stats.successRate - stats.avgDuration * 2)),
+  )
+
+  return {
+    summary: `基于 ${stats.totalExecutions} 次执行的本地规则分析：成功率 ${stats.successRate.toFixed(2)}%，平均耗时 ${stats.avgDuration.toFixed(2)} 秒`,
+    bottlenecks,
+    optimizations,
+    automationOpportunities,
+    performanceScore,
+    recommendations: [
+      `关注最慢步骤「${stats.slowestStep.name}」`,
+      `关注高失败率步骤「${stats.mostFailedStep.name}」`,
+      "模型辅助分析待架构决策（确认清单 Q3/Q5）后接入",
+    ],
+  }
 }
 
 /**

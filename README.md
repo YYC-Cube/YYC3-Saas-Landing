@@ -13,7 +13,7 @@
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat&logo=next.js&logoColor=white)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19-blue?style=flat&logo=react&logoColor=white)](https://react.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38bdf8?style=flat&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-[![AI SDK](https://img.shields.io/badge/AI%20SDK-Vercel%20v5-purple?style=flat&logo=openai&logoColor=white)](https://sdk.vercel.ai/)
+[![Rule Engine](https://img.shields.io/badge/AI-Local%20Rule%20Adapter-purple?style=flat)](./docs/YYC3-项目闭环-验收系统/reports/YYC3-技术尽调-对齐实施推进.md)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue?style=flat&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![Redis](https://img.shields.io/badge/Redis-7-red?style=flat&logo=redis&logoColor=white)](https://redis.io/)
 [![Docker](https://img.shields.io/badge/Docker-20.10-blue?style=flat&logo=docker&logoColor=white)](https://www.docker.com/)
@@ -80,8 +80,8 @@ YYC³（YanYuCloudCube）是一个现代化的企业级 SaaS 平台，专注于�
 ### ⚡ 技术亮点
 
 - **现代化技术栈**: Next.js 15 + React 19 + TypeScript 5
-- **AI 驱动**: 基于 Vercel AI SDK v5 构建
-- **流式响应**: 所有 AI 功能支持实时流式输出
+- **规则适配**: Vercel AI SDK 已剥离，当前为本地规则适配器（恢复方案见确认清单 Q3/Q5）
+- **响应形态**: 静态导出下无服务端流式能力，UI 提供明确降级提示
 - **性能优化**: 三级缓存架构 + 代码分割
 - **安全可靠**: 数据加密 + 审计日志 + 隐私保护
 - **静态部署**: GitHub Pages 全站静态导出 (output: "export")
@@ -188,7 +188,7 @@ yyc3-saas-landing/
 
 ### 后端
 
-- **AI**: Vercel AI SDK v5
+- **AI**: 已剥离（本地规则适配器；Q3/Q5 待确认）
 - **验证**: Zod
 - **日期**: date-fns
 
@@ -210,10 +210,6 @@ yyc3-saas-landing/
 # 数据库
 
 DATABASE_URL=postgresql://...
-
-# AI 服务
-
-OPENAI_API_KEY=sk-...
 
 # 认证
 
@@ -331,7 +327,6 @@ vercel --prod
 - [React](https://react.dev/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [shadcn/ui](https://ui.shadcn.com/)
-- [Vercel AI SDK](https://sdk.vercel.ai/)
 
 ---
 

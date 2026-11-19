@@ -16,7 +16,7 @@ import { trackAIUsage } from "./analytics"
 /**
  * 请求去重 Map
  */
-const pendingRequests = new Map<string, Promise<any>>()
+const pendingRequests = new Map<string, Promise<unknown>>()
 
 /**
  * 带缓存和去重的 AI 请求包装器
@@ -36,7 +36,7 @@ export async function cachedAIRequest<T>(params: {
     // 检查是否有相同的请求正在进行（请求去重）
     if (pendingRequests.has(cacheKey)) {
       console.log("[请求去重]", cacheKey)
-      return await pendingRequests.get(cacheKey)
+      return (await pendingRequests.get(cacheKey)) as T
     }
 
     // 创建请求 Promise
@@ -91,7 +91,7 @@ export async function cachedAIRequest<T>(params: {
  * 批处理请求
  */
 export class BatchProcessor<T, R> {
-  private queue: Array<{ input: T; resolve: (value: R) => void; reject: (error: any) => void }> = []
+  private queue: Array<{ input: T; resolve: (value: R) => void; reject: (error: unknown) => void }> = []
   private timer: NodeJS.Timeout | null = null
   private readonly batchSize: number
   private readonly maxWaitMs: number

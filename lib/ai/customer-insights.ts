@@ -25,9 +25,17 @@ export interface CustomerInsight {
   lastUpdated: Date
 }
 
+export interface CustomerData {
+  totalOrders?: number
+  lastContactDays?: number
+  avgOrderValue?: number
+  satisfaction?: number
+  [key: string]: unknown
+}
+
 export class CustomerInsightsEngine {
   // 生成客户洞察
-  async generateInsights(customerId: string, customerData: any): Promise<CustomerInsight> {
+  async generateInsights(customerId: string, customerData: CustomerData): Promise<CustomerInsight> {
     const insights = []
 
     // 分析购买行为
@@ -83,7 +91,7 @@ export class CustomerInsightsEngine {
   }
 
   // 客户分层分析（RFM模型）
-  async analyzeRFM(customers: any[]): Promise<{
+  async analyzeRFM(customers: Record<string, unknown>[]): Promise<{
     segments: {
       name: string
       count: number
@@ -129,9 +137,9 @@ export class CustomerInsightsEngine {
 
   // 客户画像生成
   async generatePersona(customerId: string): Promise<{
-    demographics: any
-    behaviors: any
-    preferences: any
+    demographics: Record<string, unknown>
+    behaviors: Record<string, unknown>
+    preferences: Record<string, unknown>
     tags: string[]
   }> {
     return {

@@ -24,7 +24,7 @@ interface WorkflowStep {
   id: string
   type: "trigger" | "action" | "condition" | "ai"
   name: string
-  config: Record<string, any>
+  config: Record<string, unknown>
 }
 
 export function AIWorkflowAutomation() {

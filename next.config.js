@@ -15,6 +15,8 @@ const nextConfig = {
 
   reactStrictMode: true,
 
+  // 质量门禁由 CI 的阻塞式 lint 步骤统一执行（见 .github/workflows/deploy.yml），
+  // 构建阶段跳过重复 lint，避免同一规则在两处执行产生分歧。
   eslint: {
     ignoreDuringBuilds: true,
   },

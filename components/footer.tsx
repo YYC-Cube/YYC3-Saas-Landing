@@ -20,7 +20,7 @@ export function Footer() {
           <div className="col-span-1 md:col-span-2">
             <YYC3Logo className="mb-4" />
             <p className="text-white/70 mb-4 max-w-md">SaaS 解决方案赋能企业    YYC³ 铺垫您的成功之路</p>
-            <p className="text-sm text-white/50 italic">"万象归元于云枢，深栈智启新纪元"</p>
+            <p className="text-sm text-white/50 italic">&ldquo;万象归元于云枢，深栈智启新纪元&rdquo;</p>
           </div>
 
           <div>

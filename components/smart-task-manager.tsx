@@ -367,7 +367,7 @@ export function SmartTaskManager() {
           <Card>
             <CardContent className="py-12 text-center">
               <Target className="h-16 w-16 text-muted-foreground/50 mx-auto mb-4" />
-              <p className="text-muted-foreground">暂无任务，点击"新建任务"开始</p>
+              <p className="text-muted-foreground">暂无任务，点击&ldquo;新建任务&rdquo;开始</p>
             </CardContent>
           </Card>
         ) : (

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, type ComponentType } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -13,12 +13,12 @@ interface WorkflowStep {
   id: string
   type: "trigger" | "action" | "condition" | "ai"
   name: string
-  icon: any
-  config: Record<string, any>
+  icon: ComponentType<{ className?: string }>
+  config: Record<string, unknown>
 }
 
 interface WorkflowDesignerProps {
-  workflow?: any
+  workflow?: { id: string; name: string; description?: string }
 }
 
 export function WorkflowDesigner({ workflow }: WorkflowDesignerProps) {
@@ -26,7 +26,12 @@ export function WorkflowDesigner({ workflow }: WorkflowDesignerProps) {
   const [workflowDescription, setWorkflowDescription] = useState(workflow?.description || "")
   const [steps, setSteps] = useState<WorkflowStep[]>([])
 
-  const availableSteps = [
+  const availableSteps: Array<{
+    type: WorkflowStep["type"]
+    name: string
+    icon: WorkflowStep["icon"]
+    color: string
+  }> = [
     { type: "trigger", name: "Webhook 触发器", icon: Webhook, color: "text-blue-500" },
     { type: "trigger", name: "定时触发器", icon: Zap, color: "text-yellow-500" },
     { type: "action", name: "数据库操作", icon: Database, color: "text-green-500" },
@@ -35,7 +40,7 @@ export function WorkflowDesigner({ workflow }: WorkflowDesignerProps) {
     { type: "ai", name: "AI 处理", icon: Sparkles, color: "text-pink-500" },
   ]
 
-  const addStep = (stepTemplate: any) => {
+  const addStep = (stepTemplate: { type: WorkflowStep["type"]; name: string; icon: WorkflowStep["icon"] }) => {
     const newStep: WorkflowStep = {
       id: `step-${Date.now()}`,
       type: stepTemplate.type,

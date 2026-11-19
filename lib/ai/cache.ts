@@ -25,7 +25,7 @@ if (process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
 /**
  * 生成缓存键
  */
-export function generateCacheKey(feature: string, params: Record<string, any>): string {
+export function generateCacheKey(feature: string, params: Record<string, unknown>): string {
   const sortedParams = Object.keys(params)
     .sort()
     .map((key) => `${key}:${JSON.stringify(params[key])}`)

@@ -10,16 +10,13 @@
  * @license MIT
  */
 
-// 工作流执行引擎
-import { generateText, generateObject } from "ai"
-import { openai } from "@ai-sdk/openai"
-import { z } from "zod"
+// 工作流执行引擎（Vercel AI SDK 已剥离；AI 步骤退化为本地规则适配器）
 
 export interface WorkflowStep {
   id: string
   type: "trigger" | "action" | "condition" | "ai"
   name: string
-  config: Record<string, any>
+  config: Record<string, unknown>
 }
 
 export interface WorkflowExecution {
@@ -29,7 +26,7 @@ export interface WorkflowExecution {
   startTime: Date
   endTime?: Date
   steps: StepExecution[]
-  context: Record<string, any>
+  context: Record<string, unknown>
 }
 
 export interface StepExecution {
@@ -37,8 +34,8 @@ export interface StepExecution {
   status: "pending" | "running" | "completed" | "failed" | "skipped"
   startTime?: Date
   endTime?: Date
-  input?: any
-  output?: any
+  input?: unknown
+  output?: unknown
   error?: string
 }
 
@@ -51,7 +48,7 @@ export class WorkflowEngine {
   async executeWorkflow(
     workflowId: string,
     steps: WorkflowStep[],
-    initialContext: Record<string, any> = {},
+    initialContext: Record<string, unknown> = {},
   ): Promise<WorkflowExecution> {
     const executionId = `exec-${Date.now()}`
     const execution: WorkflowExecution = {
@@ -111,7 +108,7 @@ export class WorkflowEngine {
   /**
    * 执行单个步骤
    */
-  private async executeStep(step: WorkflowStep, context: Record<string, any>): Promise<any> {
+  private async executeStep(step: WorkflowStep, context: Record<string, unknown>): Promise<unknown> {
     switch (step.type) {
       case "trigger":
         return this.executeTrigger(step, context)
@@ -129,7 +126,7 @@ export class WorkflowEngine {
   /**
    * 执行触发器
    */
-  private async executeTrigger(step: WorkflowStep, context: Record<string, any>): Promise<any> {
+  private async executeTrigger(step: WorkflowStep, context: Record<string, unknown>): Promise<unknown> {
     // 触发器通常在工作流开始时已经触发，这里只是记录
     return {
       triggered: true,
@@ -141,7 +138,7 @@ export class WorkflowEngine {
   /**
    * 执行操作
    */
-  private async executeAction(step: WorkflowStep, context: Record<string, any>): Promise<any> {
+  private async executeAction(step: WorkflowStep, context: Record<string, unknown>): Promise<unknown> {
     const { name, config } = step
 
     if (name.includes("数据库")) {
@@ -174,9 +171,11 @@ export class WorkflowEngine {
   /**
    * 执行条件判断
    */
-  private async executeCondition(step: WorkflowStep, context: Record<string, any>): Promise<any> {
+  private async executeCondition(step: WorkflowStep, context: Record<string, unknown>): Promise<unknown> {
     const { config } = step
-    const { condition, trueValue, falseValue } = config
+    const condition = typeof config.condition === "string" ? config.condition : ""
+    const trueValue = config.trueValue
+    const falseValue = config.falseValue
 
     // 简单的条件评估（实际应用中需要更复杂的表达式解析）
     const result = this.evaluateCondition(condition, context)
@@ -191,38 +190,20 @@ export class WorkflowEngine {
   /**
    * 执行 AI 处理
    */
-  private async executeAI(step: WorkflowStep, context: Record<string, any>): Promise<any> {
+  private async executeAI(step: WorkflowStep, context: Record<string, unknown>): Promise<unknown> {
     const { config } = step
-    const { prompt, inputData, outputSchema } = config
 
     try {
-      // 构建 AI 提示词
-      const fullPrompt = this.buildPrompt(prompt, inputData, context)
+      // Vercel AI SDK 已按尽调决议剥离：本步骤退化为本地规则适配器，
+      // 返回确定性的提示词渲染结果，不发起任何外部模型请求。
+      // 如需恢复模型能力，须经确认清单 Q3/Q5 决策后引入受控适配层，配置经环境变量注入。
+      const prompt = typeof config.prompt === "string" ? config.prompt : ""
+      const fullPrompt = this.buildPrompt(prompt, config.inputData, context)
 
-      if (outputSchema) {
-        // 结构化输出
-        const { object } = await generateObject({
-          model: openai("gpt-4"),
-          schema: z.object(outputSchema),
-          prompt: fullPrompt,
-        })
-
-        return {
-          type: "structured",
-          data: object,
-        }
-      } else {
-        // 文本输出
-        const { text } = await generateText({
-          model: openai("gpt-4"),
-          prompt: fullPrompt,
-        })
-
-        return {
-          type: "text",
-          data: text,
-        }
+      if (config.outputSchema) {
+        return { type: "structured", data: { prompt: fullPrompt }, mode: "local-rule" }
       }
+      return { type: "text", data: fullPrompt, mode: "local-rule" }
     } catch (error) {
       console.error("AI step execution failed:", error)
       throw error
@@ -232,28 +213,59 @@ export class WorkflowEngine {
   /**
    * 评估条件
    */
-  private evaluateCondition(condition: string, context: Record<string, any>): boolean {
-    // 简单的条件评估实现
-    // 实际应用中应该使用更安全的表达式解析器
-    try {
-      // 替换上下文变量
-      let evaluatedCondition = condition
-      Object.keys(context).forEach((key) => {
-        evaluatedCondition = evaluatedCondition.replace(new RegExp(`\\$${key}`, "g"), JSON.stringify(context[key]))
-      })
+  private evaluateCondition(condition: string, context: Record<string, unknown>): boolean {
+    // 安全策略：仅接受白名单比较表达式，禁止 eval / new Function 等动态执行。
+    // 语法：$var <op> literal | $var <op> $var
+    if (typeof condition !== "string" || condition.trim() === "") return false
 
-      // 评估条件（注意：这里使用 eval 仅用于演示，生产环境应使用安全的表达式解析器）
-      return Boolean(eval(evaluatedCondition))
-    } catch (error) {
-      console.error("Condition evaluation failed:", error)
+    const expression = condition.trim()
+    const pattern = /^(\$[A-Za-z_][A-Za-z0-9_]*)\s*(===|!==|==|!=|>=|<=|>|<)\s*(\$[A-Za-z_][A-Za-z0-9_]*|"[^"]*"|'[^']*'|-?\d+(?:\.\d+)?|true|false|null)$/
+    const parts = expression.match(pattern)
+    if (!parts) {
+      console.warn("[workflow-engine] 拒绝不支持的条件表达式", condition)
       return false
+    }
+
+    const [, leftToken, operator, rightToken] = parts
+    const resolve = (token: string): unknown => {
+      if (!token.startsWith("$")) {
+        if (token === "true") return true
+        if (token === "false") return false
+        if (token === "null") return null
+        if (/^-?\d/.test(token)) return Number(token)
+        return token.slice(1, -1)
+      }
+      const key = token.slice(1)
+      return Object.prototype.hasOwnProperty.call(context, key) ? context[key] : undefined
+    }
+
+    const left = resolve(leftToken)
+    const right = resolve(rightToken)
+
+    switch (operator) {
+      case "===":
+      case "==":
+        return left === right
+      case "!==":
+      case "!=":
+        return left !== right
+      case ">":
+        return typeof left === "number" && typeof right === "number" && left > right
+      case "<":
+        return typeof left === "number" && typeof right === "number" && left < right
+      case ">=":
+        return typeof left === "number" && typeof right === "number" && left >= right
+      case "<=":
+        return typeof left === "number" && typeof right === "number" && left <= right
+      default:
+        return false
     }
   }
 
   /**
    * 构建 AI 提示词
    */
-  private buildPrompt(template: string, inputData: any, context: Record<string, any>): string {
+  private buildPrompt(template: string, inputData: unknown, context: Record<string, unknown>): string {
     let prompt = template
 
     // 替换输入数据

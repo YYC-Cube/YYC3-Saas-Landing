@@ -67,7 +67,16 @@ export async function trackAIUsage(params: {
 /**
  * 获取使用统计
  */
-export async function getUsageStats(userId: string, timeRange: string): Promise<any> {
+export interface UsageStats {
+  totalRequests: number
+  totalTokens: number
+  totalCost: number
+  avgLatency: number
+  successRate: number
+  activeUsers: number
+}
+
+export async function getUsageStats(userId: string, timeRange: string): Promise<UsageStats> {
   // 这里应该从数据库查询
   // 暂时返回模拟数据
   return {

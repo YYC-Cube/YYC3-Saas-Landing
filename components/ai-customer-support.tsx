@@ -1,6 +1,5 @@
 "use client"
 
-import { useChat } from "@ai-sdk/react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,21 +9,33 @@ import { Badge } from "@/components/ui/badge"
 import { Loader2, Send, Bot, User, FileText, AlertCircle } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 
+interface LocalMessage {
+  id: string
+  role: "user" | "assistant"
+  text: string
+}
+
 export function AICustomerSupport() {
-  const [userId] = useState("demo-user-001") // 实际应用中从认证系统获取
   const [input, setInput] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [chatError, setChatError] = useState<string | null>(null)
+  const [messages, setMessages] = useState<LocalMessage[]>([])
 
-  const { messages, sendMessage } = useChat({
-    onError: (error) => {
-      console.error("Chat error:", error)
-      setChatError("服务暂时不可用，请稍后重试")
-    },
-    onFinish: () => {
-      setIsLoading(false)
-    },
-  })
+  // Vercel AI SDK 已剥离：静态导出下无服务端端点，改为明确的降级应答，不发起虚构请求。
+  // 恢复智能应答须经确认清单 Q3/Q5 决策后引入受控适配层，配置经环境变量注入。
+  const sendMessage = (text: string) => {
+    const stamp = Date.now()
+    setMessages((prev) => [
+      ...prev,
+      { id: `u-${stamp}`, role: "user", text },
+      {
+        id: `a-${stamp}`,
+        role: "assistant",
+        text: "当前为静态演示模式，智能客服服务端尚未接入。请通过确认清单 Q3/Q5 完成架构决策后再启用智能应答。",
+      },
+    ])
+    setIsLoading(false)
+  }
 
   const [showKnowledgeBase, setShowKnowledgeBase] = useState(false)
 
@@ -35,14 +46,16 @@ export function AICustomerSupport() {
     { q: "支持哪些支付方式？", category: "计费问题" },
   ]
 
+  const submitText = (text: string) => {
+    if (!text.trim() || isLoading) return
+    setIsLoading(true)
+    setChatError(null)
+    sendMessage(text.trim())
+    setInput("")
+  }
+
   const handleQuickQuestion = (question: string) => {
-    handleInputChange({ target: { value: question } } as any)
-    setTimeout(() => {
-      const form = document.querySelector("form")
-      if (form) {
-        form.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }))
-      }
-    }, 100)
+    submitText(question)
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,11 +64,7 @@ export function AICustomerSupport() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (!input.trim() || isLoading) return
-    setIsLoading(true)
-    setChatError(null)
-    sendMessage({ text: input, metadata: { userId } })
-    setInput("")
+    submitText(input)
   }
 
   return (
@@ -90,7 +99,7 @@ export function AICustomerSupport() {
                         message.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted"
                       }`}
                     >
-                      <p className="text-sm leading-relaxed whitespace-pre-wrap">{((message as any).content || (message as any).text || "")}</p>
+                      <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.text}</p>
                     </div>
 
                     {message.role === "user" && (

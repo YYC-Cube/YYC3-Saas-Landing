@@ -39,11 +39,9 @@ jobs:
 
       - name: Lint check
         run: pnpm lint
-        continue-on-error: true
 
       - name: Type check
-        run: pnpm tsc --noEmit || true
-        continue-on-error: true
+        run: pnpm exec tsc --noEmit
 
       - name: Build static export
         run: pnpm build

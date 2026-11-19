@@ -19,7 +19,7 @@ export interface SecurityEvent {
   result: "success" | "failure" | "blocked"
   ipAddress?: string
   userAgent?: string
-  metadata?: Record<string, any>
+  metadata?: Record<string, unknown>
   timestamp: Date
 }
 

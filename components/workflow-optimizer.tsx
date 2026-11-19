@@ -8,12 +8,28 @@ import { Progress } from "@/components/ui/progress"
 import { Sparkles, TrendingUp, AlertTriangle, Zap, Download, RefreshCw } from "lucide-react"
 
 interface WorkflowOptimizerProps {
-  workflow?: any
+  workflow?: {
+    id: string
+    name: string
+    description?: string
+    executions?: number
+    avgDuration?: number
+    successRate?: number
+  }
+}
+
+interface WorkflowAnalysisView {
+  summary: string
+  bottlenecks: Array<{ step: string; issue: string; impact: string; severity: string }>
+  optimizations: Array<{ suggestion: string; expectedImprovement: string; implementation: string; priority: string }>
+  automationOpportunities: Array<{ task: string; automationMethod: string; timeSaved: string; complexity: string }>
+  performanceScore: number
+  recommendations: string[]
 }
 
 export function WorkflowOptimizer({ workflow }: WorkflowOptimizerProps) {
   const [analyzing, setAnalyzing] = useState(false)
-  const [analysis, setAnalysis] = useState<any>(null)
+  const [analysis, setAnalysis] = useState<WorkflowAnalysisView | null>(null)
 
   const handleAnalyze = async () => {
     if (!workflow) return
@@ -148,7 +164,7 @@ export function WorkflowOptimizer({ workflow }: WorkflowOptimizerProps) {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {analysis.bottlenecks.map((bottleneck: any, index: number) => (
+                  {analysis.bottlenecks.map((bottleneck, index) => (
                     <Card key={index}>
                       <CardContent className="pt-4">
                         <div className="space-y-2">
@@ -195,7 +211,7 @@ export function WorkflowOptimizer({ workflow }: WorkflowOptimizerProps) {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {analysis.optimizations.map((optimization: any, index: number) => (
+                  {analysis.optimizations.map((optimization, index) => (
                     <Card key={index}>
                       <CardContent className="pt-4">
                         <div className="space-y-2">
@@ -246,7 +262,7 @@ export function WorkflowOptimizer({ workflow }: WorkflowOptimizerProps) {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {analysis.automationOpportunities.map((opportunity: any, index: number) => (
+                  {analysis.automationOpportunities.map((opportunity, index) => (
                     <Card key={index}>
                       <CardContent className="pt-4">
                         <div className="space-y-2">

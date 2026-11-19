@@ -2,30 +2,40 @@
 
 import type React from "react"
 
-import { useChat } from "@ai-sdk/react"
 import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Loader2, Send, Sparkles, BarChart3, TrendingUp, AlertCircle, RefreshCw } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
-import { DataChart } from "@/components/data-chart"
+
+interface LocalMessage {
+  id: string
+  role: "user" | "assistant"
+  text: string
+}
 
 export function AIAnalyticsChat() {
   const [input, setInput] = useState("")
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [messages, setMessages] = useState<LocalMessage[]>([])
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  const { messages, sendMessage } = useChat({
-    onError: (error) => {
-      console.error("[v0] Chat error:", error)
-      setError("抱歉，分析请求失败。请稍后重试。")
-      setIsLoading(false)
-    },
-    onFinish: () => {
-      setIsLoading(false)
-    },
-  })
+  // Vercel AI SDK 已剥离：静态导出下无服务端端点，改为明确的降级应答，不发起虚构请求。
+  // 恢复智能分析须经确认清单 Q3/Q5 决策后引入受控适配层，配置经环境变量注入。
+  const sendMessage = (text: string) => {
+    const stamp = Date.now()
+    setMessages((prev) => [
+      ...prev,
+      { id: `u-${stamp}`, role: "user", text },
+      {
+        id: `a-${stamp}`,
+        role: "assistant",
+        text: "当前为静态演示模式，数据分析服务尚未接入。请通过确认清单 Q3/Q5 完成架构决策后再启用智能分析。",
+      },
+    ])
+    setIsLoading(false)
+  }
 
   // 自动滚动到最新消息
   useEffect(() => {
@@ -46,7 +56,7 @@ export function AIAnalyticsChat() {
 
     setError(null)
     setIsLoading(true)
-    sendMessage({ text: input })
+    sendMessage(input)
     setInput("")
   }
 
@@ -171,73 +181,7 @@ export function AIAnalyticsChat() {
                       message.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted"
                     }`}
                   >
-                    {message.parts.map((part, partIndex) => {
-                      if (part.type === "text") {
-                        return (
-                          <div key={partIndex} className="whitespace-pre-wrap leading-relaxed">
-                            {part.text}
-                          </div>
-                        )
-                      }
-
-                      if (part.type.startsWith("tool-")) {
-                        // 数据库查询结果
-                        if (part.type === "tool-queryDatabase" && part.state === "output-available") {
-                          const output = part.output as any
-
-                          return (
-                            <div key={partIndex} className="mt-3 space-y-2">
-                              <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                                数据查询完成
-                              </div>
-
-                              {output.data && output.data.length > 0 ? (
-                                <>
-                                  <DataChart
-                                    data={output.data}
-                                    type={output.type === "sales" ? "line" : output.type === "users" ? "bar" : "line"}
-                                    title={`${output.type === "sales" ? "销售" : output.type === "users" ? "用户" : "收入"}数据趋势`}
-                                  />
-
-                                  {output.summary && (
-                                    <div className="mt-2 p-3 bg-background/50 rounded-lg text-xs space-y-1">
-                                      <div className="font-semibold text-foreground/90 mb-1">数据摘要</div>
-                                      {Object.entries(output.summary).map(([key, value]) => (
-                                        <div key={key} className="flex justify-between">
-                                          <span className="text-muted-foreground">{key}:</span>
-                                          <span className="font-medium">{String(value)}</span>
-                                        </div>
-                                      ))}
-                                    </div>
-                                  )}
-                                </>
-                              ) : (
-                                <div className="p-3 bg-background/50 rounded-lg text-xs text-muted-foreground text-center">
-                                  {output.message || "暂无相关数据"}
-                                </div>
-                              )}
-                            </div>
-                          )
-                        }
-
-                        // 图表生成结果
-                        if (part.type === "tool-generateChart" && part.state === "output-available") {
-                          return (
-                            <div key={partIndex} className="mt-2 p-3 bg-background/50 rounded-lg text-xs">
-                              <div className="flex items-center gap-2 text-muted-foreground">
-                                <span className="w-2 h-2 bg-blue-500 rounded-full" />
-                                图表配置已生成
-                              </div>
-                            </div>
-                          )
-                        }
-
-
-                      }
-
-                      return null
-                    })}
+                    <div className="whitespace-pre-wrap leading-relaxed">{message.text}</div>
                   </div>
 
                   {message.role === "user" && (

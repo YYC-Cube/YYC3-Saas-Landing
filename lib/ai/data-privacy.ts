@@ -62,7 +62,7 @@ export function sanitizeString(text: string): string {
 /**
  * 脱敏对象数据
  */
-export function sanitizeData<T extends Record<string, any>>(data: T): T {
+export function sanitizeData<T extends Record<string, unknown>>(data: T): T {
   if (!data || typeof data !== "object") {
     return data
   }
@@ -76,23 +76,23 @@ export function sanitizeData<T extends Record<string, any>>(data: T): T {
   for (const [key, value] of Object.entries(data)) {
     // 移除敏感字段
     if (SENSITIVE_FIELDS.some((field) => key.toLowerCase().includes(field))) {
-      sanitized[key as keyof T] = "[REDACTED]" as any
+      sanitized[key as keyof T] = "[REDACTED]" as T[keyof T]
       continue
     }
 
     // 递归处理嵌套对象
     if (value && typeof value === "object") {
-      sanitized[key as keyof T] = sanitizeData(value)
+      sanitized[key as keyof T] = sanitizeData(value as Record<string, unknown>) as T[keyof T]
       continue
     }
 
     // 脱敏字符串
     if (typeof value === "string") {
-      sanitized[key as keyof T] = sanitizeString(value) as any
+      sanitized[key as keyof T] = sanitizeString(value) as T[keyof T]
       continue
     }
 
-    sanitized[key as keyof T] = value
+    sanitized[key as keyof T] = value as T[keyof T]
   }
 
   return sanitized

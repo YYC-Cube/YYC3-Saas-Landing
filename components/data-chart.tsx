@@ -19,7 +19,7 @@ import {
 import { motion } from "framer-motion"
 
 interface DataChartProps {
-  data: any[]
+  data: Record<string, unknown>[]
   type: "line" | "bar" | "pie"
   title?: string
 }
