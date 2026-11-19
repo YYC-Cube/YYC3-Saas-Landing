@@ -144,6 +144,30 @@ pnpm audit --registry=https://registry.npmjs.org/ --json
 | 升级 next 后 | 0 | 22 | 6 | 28 |
 | 全部修复后 | **0** | **0** | **0** | **0** |
 
+## 五之二、GitHub Dependabot 与本机审计的口径差异（必须知悉）
+
+推送后 GitHub 仍在 push 回显中报告 30 个漏洞，与本地 `pnpm audit` 的 0 条并不矛盾，原因如下：
+
+| 观察 | 事实 | 判定 |
+|---|---|---|
+| GitHub 告警最新创建时间 | `2026-11-03T18:32:03Z` | **早于本次修复推送（2026-11-19）**，是修复前的依赖图快照 |
+| GitHub 告警总数（API 实查） | 50 条（critical 3 / high 31 / medium 16） | 与 push 回显的 30 个不是同一计数口径，且均为历史告警 |
+| 告警包含 `undici` | 当前 `pnpm-lock.yaml` 中**不存在** `undici` 运行时包，仅有 `undici-types@6.21.0`（纯类型定义） | 该告警对应的依赖已不在当前依赖树中，属陈旧告警 |
+| GitHub 告警刷新机制 | Dependabot 在推送后**异步重扫**依赖图，不会即时关闭 | 需等待重扫后复核 |
+
+**结论（如实表述）**：
+
+- 本机 `pnpm audit --registry=https://registry.npmjs.org/ --audit-level=low` = **No known vulnerabilities found**（0 条）。
+- GitHub Dependabot 告警**尚未刷新**，当前展示的是修复前快照，**不得据此宣称"GitHub 已清零"**。
+- 复核方式：推送后等待 Dependabot 重扫，再执行下列命令确认告警是否关闭：
+
+```bash
+gh api repos/YYC-Cube/YYC3-Saas-Landing/dependabot/alerts --paginate \
+  -q '[.[] | select(.state=="open") | .security_advisory.severity] | group_by(.) | map({(.[0]): length}) | add'
+```
+
+> 判定标准：输出为空或 `null` 表示已无 open 告警；若仍有 open 项，需按本文第三节方法逐条比对是否属于当前依赖树。
+
 ## 六、遗留与已知非漏洞问题
 
 | 项 | 状态 | 说明 |
