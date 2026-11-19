@@ -288,7 +288,7 @@ Node 20（CI 已用；README 声明 18.17+，须统一）；pnpm 9（CI；README
 | Q6 | `.env.example` 变量全集 | ✅ 已按实际实现更新：PG17 主备、Redis、模型、鉴权、前端变量，全部仅键名无值（见 `.env.example`）。 | 运维 |
 | Q7 | 新增测试依赖 | ✅ 已批准；实际采用 Node 22 内置 `node:test`，**零新增测试依赖**，14 用例全通过。 | 技术负责人 |
 | Q8 | 域名可达性 | ✅ 已确认 `saas.yyc3.vip` 可连接（用户截图佐证，首页渲染正常）。 | 运维 |
-| Q9 | 工具链对齐 | ✅ 已决策：以 CI 为准（pnpm 9 / Node 20）；本地实测 pnpm 10.17.0 / Node 22.22.3 向下兼容，不改动 CI 配置。 | DevOps |
+| Q9 | 工具链对齐 | ⚠️ **已修订**：原定以 CI（pnpm 9 / Node 20）为准；但因测试直接导入 `.ts`（依赖 Node 原生类型擦除），**CI Node 已升至 22**（pnpm 仍为 9）。本地实测 pnpm 10.17.0 / Node 22.22.3 兼容。 | DevOps |
 | Q10 | 遗留 API 备份处置 | ✅ **已清理：删除 `app/_api_backup_20260524_231623/` 全部 12 文件**（读取确认后经 `git rm -rf`），移除 `tsconfig.json` 对应 exclude；可通过 tag `pre-implementation-20261119` 回滚。 | 技术负责人 + 产品 |
 
 ## 9. 自我评审（依验收判据）
@@ -418,7 +418,18 @@ Node 20（CI 已用；README 声明 18.17+，须统一）；pnpm 9（CI；README
 | `app.ts` | HTTP 路由 | `GET /health` 免鉴权；其余端点需 `Bearer SERVICE_API_TOKEN`；仅允许参数化 SELECT、禁止多语句 |
 | `index.ts` | 启动入口 | SIGINT/SIGTERM 优雅关闭连接池 |
 
-### 16.3 验证结果
+### 16.3 安全基线（2026-11-19 补录）
+
+| 项 | 结果 |
+|---|---|
+| 审计口径 | `pnpm audit --registry=https://registry.npmjs.org/`（本地默认 npmmirror 不支持 audit 端点） |
+| 修复前 | 1 critical / 23 high / 8 moderate（32 条 advisory） |
+| 修复后 | **0 / 0 / 0（0 条）** |
+| 关键动作 | `next` 15.5.24 → 15.5.29（critical RCE）；`zod` 3 → 4.6.7；传递依赖经 `pnpm.overrides` 锁定 |
+| CI 门禁 | 新增 `pnpm test` 与 `pnpm audit --audit-level=high` 阻塞步骤；Node 升至 22 |
+| 详见 | `docs/YYC3-SAAS-审核报告/206-YYC3-SAAS-安全治理-依赖漏洞审计与修复记录.md` |
+
+### 16.4 验证结果
 
 | 项 | 结果 |
 |---|---|
@@ -429,7 +440,7 @@ Node 20（CI 已用；README 声明 18.17+，须统一）；pnpm 9（CI；README
 | 测试 | ✅ `pnpm test` 14/14 PASS（P0 回归 7 + 服务端 7） |
 | 四道停闸 | ✅ `pnpm test` / `pnpm lint`(0 errors) / `tsc` / `pnpm build` 全绿 |
 
-### 16.4 容灾、备份与回滚
+### 16.5 容灾、备份与回滚
 
 - **异常**：服务端全部异常有结构化响应（400/401/503/500），无静默吞错。
 - **容灾**：DB 主备自动切换；Redis 故障降级直连；模型未配置返回 503 而非伪造结果。

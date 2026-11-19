@@ -31,17 +31,24 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          # Node 22：测试直接导入 .ts，依赖原生类型擦除（Node 20 不支持）
+          node-version: 22
           cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Test
+        run: pnpm test
 
       - name: Lint check
         run: pnpm lint
 
       - name: Type check
         run: pnpm exec tsc --noEmit
+
+      - name: Dependency audit (blocking)
+        run: pnpm audit --audit-level=high
 
       - name: Build static export
         run: pnpm build
